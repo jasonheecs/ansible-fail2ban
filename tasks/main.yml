@@ -45,7 +45,8 @@
 - name: Wait for systemd to be ready
   ansible.builtin.service_facts:
   register: service_state
-  until: service_state.ansible_facts.services['systemd-journald.service'] is defined
+  until: >-
+    service_state.ansible_facts.services['systemd-journald.service'] is defined
   retries: 10
   delay: 2
 
