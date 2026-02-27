@@ -3,54 +3,44 @@
   hosts: all
   become: true
   tasks:
-    - name: Check auth.log exists
-      ansible.builtin.stat:
-        path: /var/log/auth.log
-      register: auth_log
-
-    - name: Assert auth.log exists
-      ansible.builtin.assert:
-        that: auth_log.stat.exists
-        fail_msg: "/var/log/auth.log does not exist"
-
-    - name: Check fail2ban is installed
+    - name: Gather package facts
       ansible.builtin.package_facts:
-        manager: apt
+        manager: auto
+
+    - name: Gather service facts
+      ansible.builtin.service_facts:
+
+    - name: Check file states
+      ansible.builtin.stat:
+        path: "{{ item }}"
+      loop:
+        - /var/log/auth.log
+        - /etc/fail2ban/jail.local
+        - /etc/fail2ban/fail2ban.local
+      register: file_stats
+
+    - name: Assert files exist
+      ansible.builtin.assert:
+        that: item.stat.exists
+        fail_msg: "{{ item.item }} does not exist"
+      loop: "{{ file_stats.results }}"
+
+    - name: Assert auth.log has correct group
+      ansible.builtin.assert:
+        that: file_stats.results[0].stat.gr_name == expected_group
+        fail_msg: "auth.log has incorrect group"
+      vars:
+        expected_group: >-
+          "{{ 'adm' if ansible_facts['os_family'] == 'Debian' else 'root' }}"
 
     - name: Assert fail2ban is installed
       ansible.builtin.assert:
         that: "'fail2ban' in ansible_facts.packages"
         fail_msg: "fail2ban is not installed"
 
-    - name: Check jail.local exists
-      ansible.builtin.stat:
-        path: /etc/fail2ban/jail.local
-      register: jail_local
-
-    - name: Assert jail.local exists
+    - name: Assert fail2ban service is running and enabled
       ansible.builtin.assert:
-        that: jail_local.stat.exists
-        fail_msg: "/etc/fail2ban/jail.local does not exist"
-
-    - name: Check fail2ban.local exists
-      ansible.builtin.stat:
-        path: /etc/fail2ban/fail2ban.local
-      register: fail2ban_local
-
-    - name: Assert fail2ban.local exists
-      ansible.builtin.assert:
-        that: fail2ban_local.stat.exists
-        fail_msg: "/etc/fail2ban/fail2ban.local does not exist"
-
-    - name: Check fail2ban service is running and enabled
-      ansible.builtin.service_facts:
-
-    - name: Assert fail2ban is running
-      ansible.builtin.assert:
-        that: ansible_facts.services['fail2ban.service'].state == 'running'
-        fail_msg: "fail2ban service is not running"
-
-    - name: Assert fail2ban is enabled
-      ansible.builtin.assert:
-        that: ansible_facts.services['fail2ban.service'].status == 'enabled'
-        fail_msg: "fail2ban service is not enabled"
+        that:
+          - ansible_facts.services['fail2ban.service'].state == 'running'
+          - ansible_facts.services['fail2ban.service'].status == 'enabled'
+        fail_msg: "fail2ban service is not running or not enabled"

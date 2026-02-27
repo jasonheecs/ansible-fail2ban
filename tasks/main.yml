@@ -5,15 +5,29 @@
     state: touch
     mode: "0640"
     owner: root
-    group: adm
+    group: "{{ 'adm' if ansible_facts['os_family'] == 'Debian' else 'root' }}"
     modification_time: preserve
     access_time: preserve
 
-- name: Ensure fail2ban is installed
+- name: Install EPEL repository (RedHat only)
+  ansible.builtin.dnf:
+    name: epel-release
+    state: present
+  when: ansible_facts['os_family'] == 'RedHat'
+
+- name: Ensure fail2ban is installed (Debian)
   ansible.builtin.apt:
     name: fail2ban
     state: present
     update_cache: true
+  when: ansible_facts['os_family'] == 'Debian'
+  notify: Restart fail2ban
+
+- name: Ensure fail2ban is installed (RedHat)
+  ansible.builtin.dnf:
+    name: fail2ban
+    state: present
+  when: ansible_facts['os_family'] == 'RedHat'
   notify: Restart fail2ban
 
 - name: Ensure fail2ban is configured
@@ -29,10 +43,11 @@
   notify: Restart fail2ban
 
 - name: Wait for systemd to be ready
-  ansible.builtin.command: systemctl is-system-running --wait
-  register: systemd_state
-  changed_when: false
-  failed_when: systemd_state.stdout not in ['running', 'degraded']
+  ansible.builtin.service_facts:
+  register: service_state
+  until: service_state.ansible_facts.services['systemd-journald.service'] is defined
+  retries: 10
+  delay: 2
 
 - name: Ensure fail2ban starts when machine is rebooted
   ansible.builtin.service:

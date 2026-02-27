@@ -4,7 +4,14 @@ Installs and configures [Fail2ban](https://www.fail2ban.org/) for Debian/Ubuntu 
 
 Requirements
 ------------
-None.
+No special requirements, but do note that this role requires root access, so either run it in a playbook with a global become: true, or invoke the role in your playbook like:
+
+```
+- hosts: all
+  roles:
+    - role: jasonheecs.fail2ban
+      become: true
+```
 
 
 Installation
@@ -43,8 +50,7 @@ fail2ban_services:
 
 Dependencies
 ------------
-
-None.
+Ansible version >= 2.18
 
 Example Playbook
 ----------------
@@ -56,12 +62,14 @@ Example Playbook
     - { role: jasonheecs.fail2ban }
 ```   
 
+Testing
+-------
+Testing is done via Molecule. Refer to the `molecule` folder and Github CI.
+
 License
 -------
-
 MIT
 
 Author Information
 ------------------
-
 [Jason Hee](https://jasonhee.com)
