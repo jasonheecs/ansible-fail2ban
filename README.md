@@ -1,6 +1,6 @@
 Ansible Role: Fail2ban for Ubuntu
 =========
-Installs and configures [Fail2ban](https://www.fail2ban.org/) for Ubuntu, Debian and CentOS machines
+Installs and configures [Fail2ban](https://www.fail2ban.org/) for Debian/Ubuntu and RHEL/CentOS machines
 
 Requirements
 ------------

@@ -35,7 +35,7 @@ jobs:
         distro:
           - ubuntu2404
           - debian13
-          - centos8
+          - rockylinux10
 
     steps:
       - name: Check out the codebase.

@@ -1,9 +1,9 @@
 ---
 galaxy_info:
-  role_name: ubuntu_fail2ban
+  role_name: fail2ban
   namespace: jasonheecs
   author: Jason Hee
-  description: fail2ban for Ubuntu
+  description: fail2ban for Debian/Ubuntu and RHEL/CentOS
   license: MIT
   min_ansible_version: "2.18"
 
@@ -16,7 +16,7 @@ galaxy_info:
       versions:
         - all
 
-    - name: EL
+    - name: Archlinux
       versions:
         - all
 
