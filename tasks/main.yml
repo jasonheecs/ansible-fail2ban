@@ -28,6 +28,12 @@
     - fail2ban.local
   notify: Restart fail2ban
 
+- name: Wait for systemd to be ready
+  ansible.builtin.command: systemctl is-system-running --wait
+  register: systemd_state
+  changed_when: false
+  failed_when: systemd_state.stdout not in ['running', 'degraded']
+
 - name: Ensure fail2ban starts when machine is rebooted
   ansible.builtin.service:
     name: fail2ban
