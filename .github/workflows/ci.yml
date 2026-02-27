@@ -47,7 +47,7 @@ jobs:
           python-version: "3.13"  # Can't go to 3.14+ until Ansible 13.x
 
       - name: Install test dependencies.
-        run: pip3 install ansible molecule molecule-plugins[podman] podman
+        run: pip3 install ansible podman && pip3 install -r requirements.txt
 
       - name: Run Molecule tests.
         run: molecule test

@@ -31,7 +31,7 @@
         fail_msg: "auth.log has incorrect group"
       vars:
         expected_group: >-
-          "{{ 'adm' if ansible_facts['os_family'] == 'Debian' else 'root' }}"
+          {{ 'adm' if ansible_facts['os_family'] == 'Debian' else 'root' }}
 
     - name: Assert fail2ban is installed
       ansible.builtin.assert:

@@ -1,3 +1,1 @@
-.DS_Store
-tests/roles/ansible-ubuntu-fail2ban
-ansible-deployment
+.ansible
