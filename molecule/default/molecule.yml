@@ -16,3 +16,13 @@ platforms:
 
 provisioner:
   name: ansible
+
+scenario:
+  name: default
+
+  test_sequence:
+    - syntax
+    - converge
+    - idempotence
+    - verify
+    - destroy
