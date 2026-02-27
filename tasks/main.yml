@@ -14,7 +14,7 @@
     name: fail2ban
     state: present
     update_cache: true
-  notify: restart fail2ban
+  notify: Restart fail2ban
 
 - name: Ensure fail2ban is configured
   ansible.builtin.template:
@@ -26,7 +26,7 @@
   loop:
     - jail.local
     - fail2ban.local
-  notify: restart fail2ban
+  notify: Restart fail2ban
 
 - name: Ensure fail2ban starts when machine is rebooted
   ansible.builtin.service:
