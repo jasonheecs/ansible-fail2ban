@@ -64,7 +64,7 @@ Example Playbook
 
 Testing
 -------
-Testing is done via Molecule. Refer to the `molecule` folder and Github CI.
+Testing is done via Molecule. Refer to the [molecule](molecule/default/) folder and [Github CI](https://github.com/jasonheecs/ansible-fail2ban/actions/workflows/ci.yml).
 
 License
 -------
