@@ -1,0 +1,18 @@
+---
+dependency:
+  name: galaxy
+  options:
+    ignore-errors: true
+
+driver:
+  name: podman
+
+platforms:
+  - name: instance
+    image: geerlingguy/docker-${MOLECULE_DISTRO:-ubuntu2404}-ansible:latest
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    pre_build_image: true
+    systemd: always
+  
+provisioner:
+  name: ansible

@@ -1,25 +1,19 @@
 Ansible Role: Fail2ban for Ubuntu
 =========
-[![Build Status](https://travis-ci.org/jasonheecs/ansible-ubuntu-fail2ban.svg?branch=master)](https://travis-ci.org/jasonheecs/ansible-ubuntu-fail2ban)
-
-
-Installs and configures [Fail2ban](https://www.fail2ban.org/) for Ubuntu machines
+Installs and configures [Fail2ban](https://www.fail2ban.org/) for Ubuntu, Debian and CentOS machines
 
 Requirements
 ------------
-
 None.
 
 
 Installation
 ------------
-
-`ansible-galaxy install jasonheecs.ubuntu-fail2ban`
+`ansible-galaxy install jasonheecs.fail2ban`
 
 
 Role Variables
 --------------
-
 Available variables are listed below, along with default values (see defaults/main.yml):
 ```
 fail2ban_loglevel: INFO
@@ -59,7 +53,7 @@ Example Playbook
 - hosts: all
   become: yes
   roles:
-    - { role: jasonheecs.ubuntu-fail2ban }
+    - { role: jasonheecs.fail2ban }
 ```   
 
 License
