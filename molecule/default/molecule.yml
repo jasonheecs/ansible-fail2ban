@@ -13,6 +13,6 @@ platforms:
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     pre_build_image: true
     systemd: always
-  
+
 provisioner:
   name: ansible

@@ -1,23 +1,29 @@
+---
 galaxy_info:
-
-  # Galaxy role naming compliance
   role_name: ubuntu_fail2ban
   namespace: jasonheecs
   author: Jason Hee
   description: fail2ban for Ubuntu
   license: MIT
-  min_ansible_version: 2.18
-
-  # If this a Container Enabled role, provide the minimum Ansible Container version.
-  # min_ansible_container_version:
+  min_ansible_version: "2.18"
 
   platforms:
-  - name: Ubuntu
-    versions:
-    - all
+    - name: Ubuntu
+      versions:
+        - all
+
+    - name: Debian
+      versions:
+        - all
+
+    - name: EL
+      versions:
+        - all
 
   galaxy_tags:
-    - Ubuntu
+    - ubuntu
+    - debian
+    - centos
     - fail2ban
 
 dependencies: []

@@ -1,7 +1,7 @@
 ---
 - name: Verify
   hosts: all
-  become: yes
+  become: true
   tasks:
     - name: Check auth.log exists
       ansible.builtin.stat:

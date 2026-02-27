@@ -3,6 +3,9 @@
   ansible.builtin.file:
     path: /var/log/auth.log
     state: touch
+    mode: "0640"
+    owner: root
+    group: adm
     modification_time: preserve
     access_time: preserve
 
@@ -10,13 +13,16 @@
   ansible.builtin.apt:
     name: fail2ban
     state: present
-    update_cache: yes
+    update_cache: true
   notify: restart fail2ban
 
 - name: Ensure fail2ban is configured
   ansible.builtin.template:
     src: "{{ item }}.j2"
     dest: /etc/fail2ban/{{ item }}
+    owner: root
+    group: root
+    mode: "0644"
   loop:
     - jail.local
     - fail2ban.local
@@ -26,4 +32,4 @@
   ansible.builtin.service:
     name: fail2ban
     state: started
-    enabled: yes
+    enabled: true
