@@ -5,6 +5,7 @@ name: CI
     branches: [master]
   push:
     branches: [master]
+
 jobs:
 
   lint:

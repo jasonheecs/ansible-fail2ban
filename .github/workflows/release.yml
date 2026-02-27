@@ -1,0 +1,35 @@
+---
+name: Release
+'on':
+  release:
+    types: [published]
+
+jobs:
+
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the codebase.
+        uses: actions/checkout@v5
+
+      - name: Set up Python 3.
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'  # Can't go to 3.14+ until Ansible 13.x
+
+      - name: Install Ansible.
+        run: pip3 install ansible-core
+
+      - name: Trigger import on Galaxy
+        env:
+          GALAXY_TOKEN: ${{ secrets.GALAXY_API_KEY }}
+          REPO: ${{ github.repository }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          NAMESPACE=$(echo "$REPO" | cut -d/ -f1)
+          ROLE=$(echo "$REPO" | cut -d/ -f2 | sed 's/^ansible-role-//')
+          ansible-galaxy role import \
+            --token "$GALAXY_TOKEN" \
+            --branch "$TAG" \
+            "$NAMESPACE" "$ROLE"
