@@ -4,4 +4,4 @@
   become: true
 
   roles:
-    - role: jasonheecs.ubuntu_fail2ban
+    - role: jasonheecs.fail2ban

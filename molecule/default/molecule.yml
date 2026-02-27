@@ -12,17 +12,8 @@ platforms:
     image: geerlingguy/docker-${MOLECULE_DISTRO:-ubuntu2404}-ansible:latest
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     pre_build_image: true
+    privileged: true
     systemd: always
 
 provisioner:
   name: ansible
-
-scenario:
-  name: default
-
-  test_sequence:
-    - syntax
-    - converge
-    - idempotence
-    - verify
-    - destroy
